@@ -1,6 +1,8 @@
 # Description
 
-A Cinema 4D plugin that aids in the exporting of object transform data to an agnostic file type and schema. 
+A Cinema 4D plugin that aids in the exporting of object transform data to an agnostic file type and schema.  The .scene file that is saved  will only contain Object Transform information, not the actual geometry.
+
+With this agnostic scene file, an artist can recreate the scene on a per object category by instancing the selected object by the selected category.
 
 
 
@@ -9,7 +11,16 @@ A Cinema 4D plugin that aids in the exporting of object transform data to an agn
 ### Example:
 
 ```json
-{"Objects": [{"Name": "ObjectThing", "Category": "RING1.1", "Transform": {"Position": [0, 0, 0], "Rotation": [0, 0, 0], "Scale": [0, 0, 0]}}], "Categories": ["RING1.1"], "Count": 1}
+{"Objects": [{
+    "Name": "ObjectThing",
+    "Category": "RING1.1", 
+    "Transform": {
+        "Position": [0, 0, 0], 
+        "Rotation": [0, 0, 0], 
+        "Scale": [0, 0, 0]}
+	}], 
+ "Categories": ["RING1.1"],
+ "Count": 1}
 ```
 
 
