@@ -17,6 +17,7 @@ class VLT_SelectedGeoExport:
         self.fbxscenefile = {"Objects" :[], "Categories" :[], "Count" : 0}
         self.unique = unique
         self.OverideGroupName = False
+        self.FBXExport = False
         self.doc = c4d.documents.GetActiveDocument()
 
     def GetUniqueId(self):
@@ -57,19 +58,21 @@ class VLT_SelectedGeoExport:
         Scale = [self.getGlobalScale(obj)[0],self.getGlobalScale(obj)[1],self.getGlobalScale(obj)[2]]
         Transform = {'Position':Position, 'Rotation':Rotation, 'Scale':Scale }
         namee = obj.GetName()
-        category = namee
+        category = namee.replace('.', '_')
         if self.unique == True:
             nameupdate = namee + '_'+ self.GetUniqueId()
             namee = nameupdate
+        nameup = namee.replace('.', '_')
+        namee = nameup
         if ' ' in namee:
             category = namee.split(' ')[0]
         if self.OverideGroupName == True:
-            category = self.GroupName
-        outjs = {"Name": namee,"Category": category, "Transform" : Transform}
+            category = self.GroupName.replace('.', '_')
+        outjs = {"Name": nameup,"Category": category.replace('.', '_'), "Transform" : Transform}
         if category not in self.outjs['Categories']:
             self.outjs['Categories'].append(category)
         if category not in self.fbxscenefile['Categories']:
-            self.fbxscenefile['Categories'].append(category)
+            self.fbxscenefile['Categories'].append(category.replace('.', '_'))
         return outjs
 
 
@@ -78,13 +81,14 @@ class VLT_SelectedGeoExport:
 
 
     def GetObjectFBXPath(self):
-        objectname = self.doc.GetActiveObjects(0)[0].GetName()
-        if ' ' in objectname:
-            objectnameupdate = objectname.split(' ')[0]
-            objectname = objectnameupdate
-        self.fbxfolderpath = self.GetCurrentScenePath() +"/parts/"+objectname
-        self.fbxpath =  self.fbxfolderpath +"/"+objectname+".fbx"
-        self.fbxScenepath =  self.fbxfolderpath +"/"+objectname+".scene"
+        objectname = self.GroupName
+        # objectname = self.doc.GetActiveObjects(0)[0].GetName()
+        # if ' ' in objectname:
+        objectnameupdate = objectname
+        objectname = objectnameupdate
+        self.fbxfolderpath = self.GetCurrentScenePath() +"/parts/"+objectname.replace('.', '_')
+        self.fbxpath =  self.fbxfolderpath +"/"+objectname.replace('.', '_')+".fbx"
+        self.fbxScenepath =  self.fbxfolderpath +"/"+objectname.replace('.', '_')+".scene"
         
         if os.path.exists(self.GetCurrentScenePath() +"/parts") == False:
             os.makedirs(self.GetCurrentScenePath() +"/parts")
@@ -151,9 +155,10 @@ class VLT_SelectedGeoExport:
 
         # Create/update the Scene Output JSON file
         self.WriteDictToFile(self.outjs,self.GetSceneConfigPath(),'w')
-        
+        fbxpath = self.GetObjectFBXPath()
+        if self.FBXExport == True:
         # Write FBX file and the .scene file for that object and instances.
-        self.WriteFBXFile()
+            self.WriteFBXFile()
         self.WriteDictToFile(self.fbxscenefile,self.fbxScenepath,'w')
         gui.MessageDialog('Finished Writing the .scene file and Scene Object to file!')
         print(self.outjs)

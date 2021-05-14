@@ -32,6 +32,7 @@ IDC_EXPORTSELECTEDBUTTON= 1150
 IDC_CHECKBOXINSTANCESPACENAME= 1160
 IDC_CHECKBOXINSTANCEDOTNAME= 1170
 IDC_CHECKBOXUSEOVERIDENAME= 1180
+IDC_CHECKBOXFBXEXPORT= 1200
 IDC_BUTTON_REFRESHVLTSCENEFILECATEGORYLIST= 1190
 VLTPIPELINEPLUGIN_CMD= 1057275
 VLTPIPELINESCENEEXPORTPLUGIN_CMD= 1057276
@@ -74,6 +75,7 @@ class MainDialog(c4d.gui.GeDialog):
         self.AddCheckbox(IDC_CHECKBOXINSTANCESPACENAME, c4d.BFH_SCALE, 150, 20, "Instance = ' ' (space)")
         self.AddCheckbox(IDC_CHECKBOXINSTANCEDOTNAME, c4d.BFH_SCALE, 150, 20, "Instance = '.' (period)")
         self.AddCheckbox(IDC_CHECKBOXUSEOVERIDENAME, c4d.BFH_SCALE, 150, 20, "Use Overide Category Name")
+        self.AddCheckbox(IDC_CHECKBOXFBXEXPORT, c4d.BFH_SCALE, 150, 20, "Export FBX")
         self.GroupEnd()
         
         self.GroupBegin(0, c4d.BFV_FIT | c4d.BFH_SCALEFIT, 2, 0, "Category Overide Settings", 0) 
@@ -178,7 +180,7 @@ class MainDialog(c4d.gui.GeDialog):
         return self.Scene.Categories[int(self.GetInt32(IDC_COMBOBOX_GROUPS) / 100)]
 
     def GetGroupName(self):
-        delim = ''
+        delim = '&^'
         if self.GetBool(IDC_CHECKBOXINSTANCESPACENAME) == True:
             delim = ' '
             
@@ -189,7 +191,7 @@ class MainDialog(c4d.gui.GeDialog):
         if delim in namee:
             updatedname = namee.split(delim)[0]
             namee = updatedname
-        return namee
+        return namee.replace('.', '_')
 
     def SetGroupName(self):
         
@@ -239,6 +241,7 @@ class MainDialog(c4d.gui.GeDialog):
         if wid == IDC_EXPORTSELECTEDBUTTON:
             print('IDC_EXPORTSELECTEDBUTTON Clicked')
             self.VLT_SelectedGeoExport_ = VLT_SelectedGeoExport(self.GetBool(IDC_CHECKBOXUNIQUENAME))
+            self.VLT_SelectedGeoExport_.FBXExport = self.GetBool(IDC_CHECKBOXFBXEXPORT)
             self.SetGroupName()
             self.VLT_SelectedGeoExport_.ExecuteProcess()
             
