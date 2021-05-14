@@ -31,7 +31,7 @@ With this agnostic scene file, an artist can recreate the scene on a per object 
 
 1. Select the objects to export that share the same base geometry. Examples include, Instances, similar geometry, copy & pasted geometry, etc.
 2. Chose one of the Checkboxes in the `Overide Settings` area if needed.
-   - If you chose one of the `Instance = ...` checkboxes,  click the `Refresh Gues From Selected In Scene` button to have the `Category Name` text field fill in with what the program thinks the category name should be based on your Checkbox choices
+   - If you chose one of the `Instance = ...` checkboxes,  click the `Refresh Guess From Selected In Scene` button to have the `Category Name` text field fill in with what the program thinks the category name should be based on your Checkbox choices
    - If you chose `Use Overide Category Name`, set the category name in the `Category Name` text field. This will be used in the scene file.
 3. Click `Export Selected` button to export every selected object's Transform information, along with an fbx file containing the **<u>FIRST SELECTED OBEJCT</u>** with it's Transform reset to center for LOD and other work.
 4. Do this again for other objects.
