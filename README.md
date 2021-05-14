@@ -36,6 +36,12 @@ A Cinema 4D plugin that aids in the exporting of object transform data to an agn
 
 
 
+# Screenshots
+
+![Export](https://github.com/vltmedia/VLTSceneExporterC4DPlugin/blob/master/images/screenshots/VLTExporterA.png?raw=true)
+
+![Import](https://github.com/vltmedia/VLTSceneExporterC4DPlugin/blob/master/images/screenshots/VLTExporterImportA.png?raw=true)
+
 # Roadmap
 
 - Full Scene setup.
